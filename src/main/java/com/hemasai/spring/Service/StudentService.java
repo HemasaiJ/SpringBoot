@@ -1,5 +1,6 @@
 package com.hemasai.spring.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.hemasai.spring.Constants.Constants;
 import com.hemasai.spring.Database.MongoHelper;
@@ -71,6 +73,26 @@ public class StudentService {
             LOGGER.error("Exception occurred in updateStudent and exception: ", exception);
         }
         LOGGER.info("Exit from updateStudent");
+        return response;
+    }
+
+    public Response getAllStudents() {
+        LOGGER.info("Entered into getAllStudents");
+        Response response = new Response().setStatus(Constants.FAILURE);
+
+        try {
+             List<Student> students = mongoHelper.findAll();
+             if (!CollectionUtils.isEmpty(students)) {
+                 response.setData(students);
+                 response.setStatus(Constants.SUCCESS);
+            } else {
+                response.setStatus(Constants.FAILURE);
+                response.setMessage("Students not found");
+            }
+        } catch (Exception exception) {
+            LOGGER.error("Exception occurred in getAllStudents and exception: ", exception);
+        }
+        LOGGER.info("Exit from getAllStudents");
         return response;
     }
 }
