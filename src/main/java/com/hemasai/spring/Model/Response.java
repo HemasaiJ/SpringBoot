@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Response {
     private String status;
     private String message;
-    private String data;
+    private Object data;
     private String error;
 
     public String getStatus() {
@@ -26,11 +26,11 @@ public class Response {
         this.message = message;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
