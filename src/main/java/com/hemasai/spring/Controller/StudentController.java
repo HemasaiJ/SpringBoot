@@ -22,7 +22,7 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/student")
+    @PostMapping("/students")
     public Response addStudent(
             HttpServletRequest httpServletRequest,
             @RequestBody Student student
@@ -36,7 +36,7 @@ public class StudentController {
         return response;
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/students/{studentId}")
     public Response getStudent(
             HttpServletRequest httpServletRequest,
             @PathVariable String studentId
@@ -50,7 +50,7 @@ public class StudentController {
         return response;
     }
 
-    @PatchMapping("/student/{studentId}")
+    @PatchMapping("/students/{studentId}")
     public Response updateStudent(
             HttpServletRequest httpServletRequest,
             @PathVariable String studentId,
@@ -58,6 +58,19 @@ public class StudentController {
     ){
         LOGGER.info("Entered into updateStudent with studentId: {}", studentId);
         Response response = studentService.updateStudent(studentId, student);
+        if (Constants.SUCCESS.equalsIgnoreCase(response.getStatus())) {
+            LOGGER.info("Student added successfully");
+            return response;
+        }
+        return response;
+    }
+
+    @GetMapping("/students")
+    public Response getStudents(
+            HttpServletRequest httpServletRequest
+    ) {
+        LOGGER.info("Entered into get students");
+        Response response = studentService.getAllStudents();
         if (Constants.SUCCESS.equalsIgnoreCase(response.getStatus())) {
             LOGGER.info("Student added successfully");
             return response;
